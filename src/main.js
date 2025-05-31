@@ -14,7 +14,7 @@ import {
   hideLoadMore,
   disableLoadMore,
   enableLoadMore,
-} from './js/render-gallery.js';
+} from './js/render-functions.js';
 
 let query = '';
 let page = 1;
@@ -24,7 +24,7 @@ let totalHits = 0;
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('#search-form');
 
-  hideLoadMore(); // ✅ Sayfa ilk yüklendiğinde butonu tamamen gizle
+  hideLoadMore();
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     page = 1;
     clearGallery();
-    hideLoadMore(); // Butonu her arama öncesi gizle
+    hideLoadMore();
     showLoader();
 
     try {
@@ -53,10 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
       renderGallery(response.hits);
 
       if (page * perPage < totalHits) {
-        showLoadMore(); // Butonu göster
-        enableLoadMore(); // Tıklanabilir yap
+        showLoadMore();
+        enableLoadMore();
       } else {
-        hideLoadMore(); // Başka sayfa yoksa butonu tamamen gizle
+        hideLoadMore();
       }
     } catch (error) {
       iziToast.error({
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load More handler
   setLoadMoreHandler(async () => {
     page += 1;
-    disableLoadMore(); // Tıklanamaz yap
+    disableLoadMore();
     showLoader();
 
     try {
@@ -79,9 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
       renderGallery(response.hits);
 
       if (page * perPage >= totalHits) {
-        hideLoadMore(); // Son sayfa ise butonu tamamen gizle
+        hideLoadMore();
       } else {
-        enableLoadMore(); // Devam edebilsin
+        enableLoadMore();
       }
     } catch (error) {
       iziToast.error({
