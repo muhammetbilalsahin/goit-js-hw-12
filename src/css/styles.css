@@ -82,3 +82,21 @@ button:hover {
   flex-direction: column;
   align-items: center;
 }
+.loading-button {
+  display: none;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+}
+
+.loading-button:hover {
+  background-color: #0056b3;
+}
+
+.load-more-wrapper {
+  display: flex;
+  justify-content: center;
+}

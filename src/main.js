@@ -1,4 +1,3 @@
-// src/main.js
 import './css/styles.css';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import 'izitoast/dist/css/iziToast.min.css';
@@ -12,6 +11,7 @@ import {
   hideLoader,
   setLoadMoreHandler,
   showLoadMore,
+  hideLoadMore,
   disableLoadMore,
   enableLoadMore,
 } from './js/render-gallery.js';
@@ -24,6 +24,8 @@ let totalHits = 0;
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('#search-form');
 
+  hideLoadMore(); // ✅ Sayfa ilk yüklendiğinde butonu tamamen gizle
+
   form.addEventListener('submit', async e => {
     e.preventDefault();
 
@@ -32,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     page = 1;
     clearGallery();
-    disableLoadMore(); // Başlangıçta pasif yap
+    hideLoadMore(); // Butonu her arama öncesi gizle
     showLoader();
 
     try {
@@ -51,10 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
       renderGallery(response.hits);
 
       if (page * perPage < totalHits) {
-        enableLoadMore(); // veri varsa aktif yap
-        showLoadMore(); // ve görünür hale getir
+        showLoadMore(); // Butonu göster
+        enableLoadMore(); // Tıklanabilir yap
       } else {
-        disableLoadMore(); // başka sayfa yoksa pasif
+        hideLoadMore(); // Başka sayfa yoksa butonu tamamen gizle
       }
     } catch (error) {
       iziToast.error({
@@ -69,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load More handler
   setLoadMoreHandler(async () => {
     page += 1;
-    disableLoadMore(); // tekrar tıklamayı önle
+    disableLoadMore(); // Tıklanamaz yap
     showLoader();
 
     try {
@@ -77,9 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
       renderGallery(response.hits);
 
       if (page * perPage >= totalHits) {
-        disableLoadMore(); // son sayfa, pasif yap
+        hideLoadMore(); // Son sayfa ise butonu tamamen gizle
       } else {
-        enableLoadMore(); // devam varsa aktif bırak
+        enableLoadMore(); // Devam edebilsin
       }
     } catch (error) {
       iziToast.error({
