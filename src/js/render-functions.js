@@ -53,11 +53,11 @@ export function clearGallery() {
 }
 
 export function showLoader() {
-  document.querySelector('.hidden-loader').style.display = 'flex';
+  document.querySelector('#loader').style.display = 'flex';
 }
 
 export function hideLoader() {
-  document.querySelector('.hidden-loader').style.display = 'none';
+  document.querySelector('#loader').style.display = 'none';
 }
 
 loadMoreButton.addEventListener('click', () => {
